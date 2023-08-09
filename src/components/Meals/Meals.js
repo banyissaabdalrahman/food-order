@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import AvailableMeals from "./AvailableMeals";
+import AvailableMeals from "./MealItem/AvailableMeals";
 import MealsSummary from "./MealsSummary";
 
 const Meals = () => {
