@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { startTransition, useReducer } from "react";
 import CartContext from "./cart-context";
 
 const defaultCartState = {
@@ -35,7 +35,23 @@ const cartReducer = (state, action) => {
   }
 
   if (action.type === "REMOVE") {
-    return;
+    const itemId = state.items.findIndex((item) => item.id === action.id);
+    const item = state.items[itemId];
+    const updatedItem = { ...item, amount: item.amount - 1 };
+    const updatedTotalAmount = state.totalAmount - item.price;
+    let updatedItems;
+
+    if (updatedItem.amount !== 0) {
+      updatedItems = [...state.items];
+      updatedItems[itemId] = updatedItem;
+    } else {
+      updatedItems = [...state.items];
+      updatedItems.splice(itemId, 1);
+    }
+    return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount,
+    };
   }
 
   return defaultCartState;
